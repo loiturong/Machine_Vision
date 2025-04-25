@@ -2,7 +2,8 @@ import numpy as np
 import cv2 as cv
 
 __all__ = ["negative_transform", "negative_colors_transform",
-           "log_transform", "gamma_transform"]
+           "log_transform", "gamma_transform",
+           "contrast_stretching", "intensity_thresholding","intensity_slicing"]
 
 # region Constant
 L = 255
@@ -60,3 +61,18 @@ def gamma_transform(image: np.ndarray,
     image_np = constant * np.power(image_np, gamma)
 
     return np.array(image_np, dtype=np.uint8)
+
+# region Piecewise Linear Transformation Functions
+def contrast_stretching(image: np.ndarray) -> np.ndarray:
+    r_min, r_max = np.min(image), np.max(image)
+    new_weight = (255 - 1) / (r_max - r_min)
+
+    return np.array(new_weight * (image - r_min), dtype=np.uint8)
+
+def intensity_thresholding(image: np.ndarray) -> np.ndarray:
+    m = np.mean(image)
+    return np.array(np.where(image > m, 255, 0), dtype=np.uint8)
+
+def intensity_slicing(image: np.ndarray) -> np.ndarray:
+    pass
+# endregion
