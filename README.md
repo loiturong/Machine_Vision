@@ -1,2 +1,2 @@
 # Machine_Vision
-Implement Image Transformation for University Subject
+Image Transformation Implementation for University Coursework.
